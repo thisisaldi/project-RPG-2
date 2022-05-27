@@ -34,7 +34,7 @@ class Player(pygame.sprite.Sprite):
         self.idle = True
         
         self.index = 0
-        self.cooldown_run = 0
+        self.run_delay = 0
         
     def input(self):
         self.direction.x = 0
@@ -71,10 +71,10 @@ class Player(pygame.sprite.Sprite):
                 self.image = self.image_idle_right[self.index]
             else:
                 self.image = self.image_idle_left[self.index]
-            self.cooldown_run += 1
-            if self.cooldown_run >= PLAYER_ANIM_COOLDOWN:
+            self.run_delay += 1
+            if self.run_delay >= PLAYER_ANIM_DELAY:
                 self.index += 1
-                self.cooldown_run = 0
+                self.run_delay = 0
                 
         else:
             if self.index >=  len(self.image_run_right):
@@ -83,10 +83,10 @@ class Player(pygame.sprite.Sprite):
                 self.image = self.image_run_right[self.index]
             else:
                 self.image = self.image_run_left[self.index]
-            self.cooldown_run += 1
-            if self.cooldown_run >= PLAYER_ANIM_COOLDOWN:
+            self.run_delay += 1
+            if self.run_delay >= PLAYER_ANIM_DELAY:
                 self.index += 1
-                self.cooldown_run = 0
+                self.run_delay = 0
             
     def update(self):
         self.animation()
