@@ -28,7 +28,8 @@ class Player(pygame.sprite.Sprite):
             self.rect = self.image.get_rect()
         
         self.direction = pygame.math.Vector2()
-        
+        self.rect.x = WINDOW_WIDTH / 2
+        self.rect.y = WINDOW_HEIGHT / 2
         self.right = True
         self.idle = True
         
