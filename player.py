@@ -104,4 +104,4 @@ class Player(Creature):
     def update(self):
         self.input()
         self.animation()
-        self.move()
+        self.move(PLAYER_SPEED)

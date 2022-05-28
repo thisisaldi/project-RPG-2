@@ -6,9 +6,9 @@ class Creature(pygame.sprite.Sprite):
         super().__init__(group)
         self.direction = pygame.math.Vector2()
         
-    def move(self):
+    def move(self, speed):
         if self.direction.magnitude() != 0:
             self.direction = self.direction.normalize()
         
-        self.rect.x += self.direction.x * PLAYER_SPEED
-        self.rect.y += self.direction.y * PLAYER_SPEED
+        self.rect.x += self.direction.x * speed
+        self.rect.y += self.direction.y * speed
