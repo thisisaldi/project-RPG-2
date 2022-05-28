@@ -36,6 +36,13 @@ class Player(pygame.sprite.Sprite):
         self.index = 0
         self.anim_delay = 0
         
+        # Stats
+        
+        self.level = 1
+        self.base_damage = PLAYER_BASE_DAMAGE + (PLAYER_GROWTH_DAMAGE * (self.level - 1))
+        self.hp = PLAYER_BASE_HP + (PLAYER_GROWTH_HP * (self.level - 1))
+        self.mana = PLAYER_BASE_MANA + (PLAYER_GROWTH_MANA * (self.level - 1))
+        
     def input(self):
         self.direction.x = 0
         self.direction.y = 0
@@ -89,6 +96,6 @@ class Player(pygame.sprite.Sprite):
                 self.anim_delay = 0
             
     def update(self):
-        self.animation()
         self.input()
+        self.animation()
         self.move()
