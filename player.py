@@ -50,26 +50,32 @@ class Player(Creature):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
             self.direction.y = -1
-            self.idle = False
         if keys[pygame.K_a]:
-            self.direction.x = -1
-            self.right = False
-            self.idle = False
+            if self.direction.x == 1:
+                self.direction.x = 0
+            else:
+                self.direction.x = -1
         if keys[pygame.K_s]:
-            self.direction.y = 1
-            self.idle = False
+            if self.direction.y == -1:
+                self.direction.y = 0
+            else:
+                self.direction.y = 1
         if keys[pygame.K_d]:
-            self.direction.x = 1
-            self.right = True
+            if self.direction.x == -1:
+                self.direction.x = 0
+            else:
+                self.direction.x = 1
+                
+        if self.direction.x == 0 and self.direction.y == 0:
+            self.idle = True
+        else:
             self.idle = False
-        
-    # def move(self):
-    #     if self.direction.magnitude() != 0:
-    #         self.direction = self.direction.normalize()
-        
-    #     self.rect.x += self.direction.x * PLAYER_SPEED
-    #     self.rect.y += self.direction.y * PLAYER_SPEED
-        
+            
+        if self.direction.x == 1:
+            self.right = True
+        elif self.direction.x == -1:
+            self.right = False
+     
     def animation(self):
         if self.idle:
             if self.index >= len(self.image_idle_right):
