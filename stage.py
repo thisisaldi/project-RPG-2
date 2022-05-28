@@ -12,6 +12,9 @@ class Stage:
         self.player = Player([self.visible])
         
     def run(self):
-        # self.visible.draw(self.display)
-        self.visible.custom_draw(self.player)
+        
+        # uncomment aja
+        # self.visible.custom_draw1(self.player)
+        self.visible.custom_draw2(self.player)
+
         self.visible.update()

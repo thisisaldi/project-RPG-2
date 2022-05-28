@@ -11,7 +11,7 @@ class Camera(pygame.sprite.Group):
         self.rect = pygame.Rect(CAMERA_MARGIN_LEFT, CAMERA_MARGIN_TOP, WINDOW_WIDTH - (CAMERA_MARGIN_LEFT * 2), WINDOW_HEIGHT - (CAMERA_MARGIN_TOP * 2))
 
 
-    def custom_draw(self, player):
+    def custom_draw1(self, player):
         
         print(player.rect)
         
@@ -28,6 +28,14 @@ class Camera(pygame.sprite.Group):
             self.rect.left - CAMERA_MARGIN_LEFT,
             self.rect.top - CAMERA_MARGIN_TOP
         )
+        
+        for sprite in self.sprites():
+            offset_pos = sprite.rect.topleft - self.offset
+            self.display.blit(sprite.image, offset_pos)
+            
+    def custom_draw2(self, player):
+        self.offset.x = player.rect.centerx - (WINDOW_WIDTH / 2)
+        self.offset.y = player.rect.centery - (WINDOW_HEIGHT / 2)
         
         for sprite in self.sprites():
             offset_pos = sprite.rect.topleft - self.offset
