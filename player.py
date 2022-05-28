@@ -1,7 +1,8 @@
 import pygame
 from config import *
+from creature import Creature
 
-class Player(pygame.sprite.Sprite):
+class Player(Creature):
     def __init__(self, group):
         super().__init__(group)
         self.image_idle_right = []
@@ -27,7 +28,6 @@ class Player(pygame.sprite.Sprite):
             self.image_run_left.append(self.image)
             self.rect = self.image.get_rect()
         
-        self.direction = pygame.math.Vector2()
         self.rect.x = WINDOW_WIDTH / 2
         self.rect.y = WINDOW_HEIGHT / 2
         self.right = True
@@ -63,12 +63,12 @@ class Player(pygame.sprite.Sprite):
             self.right = True
             self.idle = False
         
-    def move(self):
-        if self.direction.magnitude() != 0:
-            self.direction = self.direction.normalize()
+    # def move(self):
+    #     if self.direction.magnitude() != 0:
+    #         self.direction = self.direction.normalize()
         
-        self.rect.x += self.direction.x * PLAYER_SPEED
-        self.rect.y += self.direction.y * PLAYER_SPEED
+    #     self.rect.x += self.direction.x * PLAYER_SPEED
+    #     self.rect.y += self.direction.y * PLAYER_SPEED
         
     def animation(self):
         if self.idle:

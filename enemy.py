@@ -1,7 +1,8 @@
 import pygame
 from config import *
+from creature import Creature
 
-class Enemy(pygame.sprite.Sprite):
+class Enemy(Creature):
     def __init__(self, group, player):
         super().__init__(group)
         self.image = pygame.image.load('assets/player_idle1.png').convert_alpha() # png belom diganti
