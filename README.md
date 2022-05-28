@@ -2,7 +2,7 @@
 
 ## Note
 
-Note : Install ***PyGame*** to run the game.
+Install ***PyGame*** to run the game.
 
 ## Run
 
