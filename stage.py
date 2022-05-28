@@ -11,8 +11,6 @@ class Stage:
         self.terrain = Terrain([self.visible])
         self.player = Player([self.visible])
         
-        self.visible.init_terrain()
-        
     def run(self):
         # self.visible.draw(self.display)
         self.visible.custom_draw(self.player)
