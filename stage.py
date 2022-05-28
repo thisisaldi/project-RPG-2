@@ -13,8 +13,6 @@ class Stage:
         
     def run(self):
         
-        # uncomment aja
-        # self.visible.custom_draw1(self.player)
-        self.visible.custom_draw2(self.player)
+        self.visible.custom_draw(self.player)
 
         self.visible.update()
