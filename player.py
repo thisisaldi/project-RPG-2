@@ -31,12 +31,11 @@ class Player(Creature):
         self.rect.x = WINDOW_WIDTH / 2
         self.rect.y = WINDOW_HEIGHT / 2
         self.right = True
-        self.idle = True
+        self.running = False
+        self.attacking = False
         
         self.index = 0
         self.anim_delay = 0
-        
-        # Stats
         
         self.level = 1
         self.base_damage = PLAYER_BASE_DAMAGE + (PLAYER_GROWTH_DAMAGE * (self.level - 1))
@@ -46,7 +45,7 @@ class Player(Creature):
     def input(self):
         self.direction.x = 0
         self.direction.y = 0
-        self.idle = True
+        self.running = True
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
             self.direction.y = -1
@@ -67,9 +66,9 @@ class Player(Creature):
                 self.direction.x = 1
                 
         if self.direction.x == 0 and self.direction.y == 0:
-            self.idle = True
+            self.running = False
         else:
-            self.idle = False
+            self.running = True
             
         if self.direction.x == 1:
             self.right = True
@@ -77,19 +76,7 @@ class Player(Creature):
             self.right = False
      
     def animation(self):
-        if self.idle:
-            if self.index >= len(self.image_idle_right):
-                self.index = 0
-            if self.right:
-                self.image = self.image_idle_right[self.index]
-            else:
-                self.image = self.image_idle_left[self.index]
-            self.anim_delay += 1
-            if self.anim_delay >= PLAYER_IDLE_DELAY:
-                self.index += 1
-                self.anim_delay = 0
-                
-        else:
+        if self.running:
             if self.index >=  len(self.image_run_right):
                 self.index = 0
             if self.right:
@@ -98,6 +85,18 @@ class Player(Creature):
                 self.image = self.image_run_left[self.index]
             self.anim_delay += 1
             if self.anim_delay >= PLAYER_RUN_DELAY:
+                self.index += 1
+                self.anim_delay = 0
+                
+        else:
+            if self.index >= len(self.image_idle_right):
+                self.index = 0
+            if self.right:
+                self.image = self.image_idle_right[self.index]
+            else:
+                self.image = self.image_idle_left[self.index]
+            self.anim_delay += 1
+            if self.anim_delay >= PLAYER_IDLE_DELAY:
                 self.index += 1
                 self.anim_delay = 0
             
