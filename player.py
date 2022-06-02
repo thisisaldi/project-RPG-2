@@ -9,7 +9,9 @@ class Player(Creature):
         self.image_idle_left = []
         self.image_run_right = []
         self.image_run_left = []
-        
+        self.image_attack_right = []
+        self.image_attack_left = []
+
         for i in range(1, 10):
             self.image = pygame.image.load(f'assets/player_idle{i}.png').convert_alpha()
             self.image = pygame.transform.scale(self.image, PLAYER_SIZE)
@@ -28,11 +30,22 @@ class Player(Creature):
             self.image_run_left.append(self.image)
             self.rect = self.image.get_rect()
         
+        for i in range(1, 11):
+            self.image = pygame.image.load(f'assets/player_attack{i}.png').convert_alpha()
+            self.image = pygame.transform.scale(self.image, PLAYER_SIZE)
+            
+            self.image_attack_right.append(self.image)
+            self.image = pygame.transform.flip(self.image, True, False)
+            self.image_attack_left.append(self.image)
+            self.rect = self.image.get_rect()
+        
+        
         self.rect.x = WINDOW_WIDTH / 2
         self.rect.y = WINDOW_HEIGHT / 2
         self.right = True
         self.running = False
         self.attacking = False
+        self.attack_speed = 2
         
         self.index = 0
         self.anim_delay = 0
@@ -47,24 +60,32 @@ class Player(Creature):
         self.direction.y = 0
         self.running = True
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_w]:
-            self.direction.y = -1
-        if keys[pygame.K_a]:
-            if self.direction.x == 1:
-                self.direction.x = 0
-            else:
-                self.direction.x = -1
-        if keys[pygame.K_s]:
-            if self.direction.y == -1:
-                self.direction.y = 0
-            else:
-                self.direction.y = 1
-        if keys[pygame.K_d]:
-            if self.direction.x == -1:
-                self.direction.x = 0
-            else:
-                self.direction.x = 1
+        if not self.attacking:
+            if keys[pygame.K_w]:
+                self.direction.y = -1
+            if keys[pygame.K_a]:
+                if self.direction.x == 1:
+                    self.direction.x = 0
+                else:
+                    self.direction.x = -1
+            if keys[pygame.K_s]:
+                if self.direction.y == -1:
+                    self.direction.y = 0
+                else:
+                    self.direction.y = 1
+            if keys[pygame.K_d]:
+                if self.direction.x == -1:
+                    self.direction.x = 0
+                else:
+                    self.direction.x = 1
+        if keys[pygame.K_j]:
+            if not self.attacking:
+                 self.attacking = True
+                 self.index = 0
                 
+        if self.attacking and self.index >= len(self.image_attack_right):
+            self.attacking = False
+                       
         if self.direction.x == 0 and self.direction.y == 0:
             self.running = False
         else:
@@ -85,6 +106,18 @@ class Player(Creature):
                 self.image = self.image_run_left[self.index]
             self.anim_delay += 1
             if self.anim_delay >= PLAYER_RUN_DELAY:
+                self.index += 1
+                self.anim_delay = 0
+                
+        elif self.attacking:
+            if self.index >=  len(self.image_attack_right):
+                self.index = 0
+            if self.right:
+                self.image = self.image_attack_right[self.index]
+            else:
+                self.image = self.image_attack_left[self.index]
+            self.anim_delay += 1
+            if self.anim_delay >= self.attack_speed:
                 self.index += 1
                 self.anim_delay = 0
                 

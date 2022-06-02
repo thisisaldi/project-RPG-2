@@ -9,6 +9,7 @@ class Game:
         self.display = pygame.display.set_mode(WINDOW_SIZE)
         self.clock = pygame.time.Clock()
         self.stages = Stage()
+        self.font = pygame.font.SysFont('consolas', 30)
         
     def run(self):
         while True:
@@ -18,5 +19,9 @@ class Game:
                     sys.exit()
             self.display.fill('black')
             self.stages.run()
+            
+            self.fps = self.font.render('{:.2f}'.format(self.clock.get_fps()), True, 'white')
+            self.display.blit(self.fps, (50, 50))
+            print(self.clock.get_fps())
             pygame.display.update()
             self.clock.tick(DEFAULT_FPS)
