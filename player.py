@@ -1,4 +1,5 @@
 import pygame
+import soundfx as sfx
 from config import *
 from creature import Creature
 
@@ -12,8 +13,8 @@ class Player(Creature):
         self.image_attack_right = []
         self.image_attack_left = []
         self.display = pygame.display.get_surface()
-        for i in range(1, 10):
-            self.image = pygame.image.load(f'assets/player/player_idle{i}.png').convert_alpha()
+        for i in range(1, 5):
+            self.image = pygame.image.load(f'assets/player/player_idle_anim_f{i}.png').convert_alpha()
             self.image = pygame.transform.scale(self.image, PLAYER_SIZE)
             
             self.image_idle_right.append(self.image)
@@ -21,8 +22,8 @@ class Player(Creature):
             self.image_idle_left.append(self.image)
             self.rect = self.image.get_rect()
         
-        for i in range(1, 10):
-            self.image = pygame.image.load(f'assets/player/player_run{i}.png').convert_alpha()
+        for i in range(1, 5):
+            self.image = pygame.image.load(f'assets/player/player_run_anim_f{i}.png').convert_alpha()
             self.image = pygame.transform.scale(self.image, PLAYER_SIZE)
             
             self.image_run_right.append(self.image)
@@ -30,9 +31,9 @@ class Player(Creature):
             self.image_run_left.append(self.image)
             self.rect = self.image.get_rect()
         
-        for i in range(1, 11):
-            self.image = pygame.image.load(f'assets/player/player_attack{i}.png').convert_alpha()
-            self.image = pygame.transform.scale(self.image, PLAYER_SIZE)
+        for i in range(1, 9):
+            self.image = pygame.image.load(f'assets/player/player_attack_anim_f{i}.png').convert_alpha()
+            self.image = pygame.transform.scale(self.image, (PLAYER_WIDTH * 2, PLAYER_HEIGHT))
             
             self.image_attack_right.append(self.image)
             self.image = pygame.transform.flip(self.image, True, False)
@@ -92,6 +93,7 @@ class Player(Creature):
         if keys[pygame.K_j]:
             if not self.attacking:
                 self.attacking = True
+                # sfx.player_attack_sound()
                 self.index = 0
                 
         if self.attacking and self.index >= len(self.image_attack_right):
@@ -108,7 +110,7 @@ class Player(Creature):
             self.right = False
     
     def attack(self):
-        if self.attacking and self.index >= 5:
+        if self.attacking and self.index >= 4:
             if self.right:
                 self.hitbox = pygame.rect.Rect(self.rect.centerx, self.rect.top, PLAYER_ATTACK_RANGE + (self.rect.width / 2), self.rect.height)
             else:
