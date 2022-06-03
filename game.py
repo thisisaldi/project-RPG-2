@@ -10,6 +10,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.stages = Stage()
         self.font = pygame.font.SysFont('consolas', 30)
+        self.time = pygame.time.get_ticks()
         
     def run(self):
         while True:
@@ -18,10 +19,17 @@ class Game:
                     pygame.quit()
                     sys.exit()
             self.display.fill('black')
-            self.stages.run()
+            self.time = self.stages.run(pygame.time.get_ticks(), self.time)
             
             self.fps = self.font.render('{:.2f}'.format(self.clock.get_fps()), True, 'white')
             self.display.blit(self.fps, (50, 50))
+            
+            self.player_hp = self.font.render(f'HP : {self.stages.player.hp}', True, 'white')
+            self.display.blit(self.player_hp, (50, 100))
+        
+            # self.enemy_hp = self.font.render(f'HP : {self.stages.enemy1.hp}', True, 'white')
+            # self.display.blit(self.enemy_hp, (50, 150))
+            
             # print(self.clock.get_fps())
             pygame.display.update()
             self.clock.tick(DEFAULT_FPS)
