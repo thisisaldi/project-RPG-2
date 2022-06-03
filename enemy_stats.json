@@ -1,0 +1,41 @@
+{
+    "Goblin": {
+        "HP" : 5,
+        "Damage" : 2,
+        "Level" : 2,
+        "Range" : 400,
+        "Type" : "Common"
+    },
+
+    "Masked Orc" : {
+        "HP" : 2,
+        "Damage" : 2,
+        "Level" : 2,
+        "Range" : 400,
+        "Type" : "Common"
+    },
+
+    "Orc Shaman" : {
+        "HP" : 2,
+        "Damage" : 2,
+        "Level" : 2,
+        "Range" : 400,
+        "Type" : "Common"
+    },
+    
+    "Orc Warrior" : {
+        "HP" : 2,
+        "Damage" : 2,
+        "Level" : 2,
+        "Range" : 400,
+        "Type" : "Common"
+    },
+
+    "Ogre" : {
+        "HP" : 2,
+        "Damage" : 2,
+        "Level" : 2,
+        "Range" : 400,
+        "Type" : "Common"
+    }
+}
