@@ -13,6 +13,7 @@ class Camera(pygame.sprite.Group):
         self.offset.y = player.rect.centery - (WINDOW_HEIGHT / 2)
         
         for sprite in self.sprites():
-            offset_pos = sprite.rect.topleft - self.offset
-            self.display.blit(sprite.image, offset_pos)
+            if sprite.alive:
+                offset_pos = sprite.rect.topleft - self.offset
+                self.display.blit(sprite.image, offset_pos)
                 
