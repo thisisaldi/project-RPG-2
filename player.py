@@ -11,7 +11,7 @@ class Player(Creature):
         self.image_run_left = []
         self.image_attack_right = []
         self.image_attack_left = []
-
+        self.display = pygame.display.get_surface()
         for i in range(1, 10):
             self.image = pygame.image.load(f'assets/player/player_idle{i}.png').convert_alpha()
             self.image = pygame.transform.scale(self.image, PLAYER_SIZE)
@@ -47,7 +47,8 @@ class Player(Creature):
         self.running = False
         self.attacking = False
         self.dashing = False
-        self.attack_speed = 2
+        self.damaged = False
+        self.attack_speed = 3
 
         self.dash_cooldown = 0
         
@@ -58,6 +59,7 @@ class Player(Creature):
         self.base_damage = PLAYER_BASE_DAMAGE + (PLAYER_GROWTH_DAMAGE * (self.level - 1))
         self.hp = PLAYER_BASE_HP + (PLAYER_GROWTH_HP * (self.level - 1))
         self.mana = PLAYER_BASE_MANA + (PLAYER_GROWTH_MANA * (self.level - 1))
+
         
     def input(self):
         self.direction.x = 0
@@ -106,7 +108,15 @@ class Player(Creature):
             self.right = False
     
     def attack(self):
-        pass
+        if self.attacking and self.index >= 5:
+            if self.right:
+                self.hitbox = pygame.rect.Rect(self.rect.centerx, self.rect.top, PLAYER_ATTACK_RANGE + (self.rect.width / 2), self.rect.height)
+            else:
+                self.hitbox = pygame.rect.Rect(self.rect.centerx - PLAYER_ATTACK_RANGE - (self.rect.width / 2), self.rect.top, PLAYER_ATTACK_RANGE + (self.rect.width / 2), self.rect.height)
+            # pygame.draw.rect(self.display, 'white', self.hitbox, 2)
+            for enemy in self.enemies:
+                if self.hitbox.colliderect(enemy.rect):
+                    enemy.hp -= self.base_damage
      
     def animation(self):
         if self.running:
@@ -146,6 +156,7 @@ class Player(Creature):
                 self.anim_delay = 0
             
     def update(self):
+        self.attack()
         self.input()
         self.animation()
         if self.dashing:
