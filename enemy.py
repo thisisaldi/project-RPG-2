@@ -13,13 +13,15 @@ class Enemy(Creature):
 class Goblin(Enemy):
     def __init__(self, group, player):
         super().__init__(group, player)
+    
+
         self.image_idle_right = []
         self.image_idle_left = []
         self.image_run_right = []
         self.image_run_left = []
 
         for i in range(0, 4):
-            self.image = pygame.image.load(f'assets/0x72_DungeonTilesetII_v1.4/frames/goblin_idle_anim_{i}.png').convert_alpha() # png belom diganti
+            self.image = pygame.image.load(f'assets/0x72_DungeonTilesetII_v1.4/frames/goblin_idle_anim_f{i}.png').convert_alpha() # png belom diganti
             self.image = pygame.transform.scale(self.image, ENEMY_SIZE)
 
             self.image_idle_right.append(self.image)
@@ -29,7 +31,7 @@ class Goblin(Enemy):
         self.rect = self.image.get_rect()
 
         for i in range(0, 4):
-            self.image = pygame.image.load(f'assets/0x72_DungeonTilesetII_v1.4/frames/goblin_run_anim_{i}.png').convert_alpha() # png belom diganti
+            self.image = pygame.image.load(f'assets/0x72_DungeonTilesetII_v1.4/frames/goblin_run_anim_f{i}.png').convert_alpha() # png belom diganti
             self.image = pygame.transform.scale(self.image, ENEMY_SIZE)
 
             self.image_run_right.append(self.image)
@@ -46,8 +48,17 @@ class Goblin(Enemy):
         self.anim_delay = 0
     
     def animation(self):
-
-        pass
+        if self.index >= len(self.image_idle_right):
+            self.index = 0
+        if self.right:
+            self.image = self.image_idle_right[self.index]
+        else:
+            self.image = self.image_idle_left[self.index]
+        self.anim_delay += 1
+        if self.anim_delay >= ENEMY_IDLE_DELAY:
+            self.index += 1
+            self.anim_delay = 0
 
     def update(self):
+        self.animation()
         self.move()
