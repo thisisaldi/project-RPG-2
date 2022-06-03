@@ -8,6 +8,3 @@ class Terrain(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (self.image.get_width() * MAP_SCALE, self.image.get_height() * MAP_SCALE))
         
         self.rect = self.image.get_rect(center = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2))
-
-    
-        
