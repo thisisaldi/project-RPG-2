@@ -1,9 +1,9 @@
-import pygame
+import pygame, random
 from config import *
 from player import Player
 from camera import Camera
 from terrain import Terrain
-from enemy import Goblin
+from enemy import *
 
 class Stage:
     def __init__(self):
@@ -15,13 +15,20 @@ class Stage:
         self.enemies = pygame.sprite.Group()
         self.terrain = Terrain([self.visible])
         self.player = Player([self.visible], self.enemies)
-        self.enemy1 = Goblin([self.visible, self.enemies], self.player, self.enemies, (100, 100))
-        self.enemy2 = Goblin([self.visible, self.enemies], self.player, self.enemies, (200, 200))
-        self.enemy3 = Goblin([self.visible, self.enemies], self.player, self.enemies, (300, 300))
-        self.enemy4 = Goblin([self.visible, self.enemies], self.player, self.enemies, (600, 700))
+        # self.enemy1 = Goblin([self.visible, self.enemies], self.player, self.enemies, (random.randint(-100, 100), random.randint(-100, 100)))
+        self.enemy2 = MaskedOrc([self.visible, self.enemies], self.player, self.enemies, (random.randint(-50, 50), random.randint(-50, 50)))
+        
 
-    def run(self):
+    def run(self, interval, now):
         
         self.visible.custom_draw(self.player)
 
         self.visible.update()
+
+        if interval - now >= 5000:
+            # Goblin([self.visible, self.enemies], self.player, self.enemies, (random.randint(-200, 200), random.randint(-200, 200)))
+            MaskedOrc([self.visible, self.enemies], self.player, self.enemies, (random.randint(-200, 200), random.randint(-200, 200)))
+
+            return interval
+
+        return now
