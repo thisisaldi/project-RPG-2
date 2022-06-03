@@ -22,6 +22,6 @@ class Game:
             
             self.fps = self.font.render('{:.2f}'.format(self.clock.get_fps()), True, 'white')
             self.display.blit(self.fps, (50, 50))
-            print(self.clock.get_fps())
+            # print(self.clock.get_fps())
             pygame.display.update()
             self.clock.tick(DEFAULT_FPS)
