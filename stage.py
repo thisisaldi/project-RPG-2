@@ -3,6 +3,7 @@ from config import *
 from player import Player
 from camera import Camera
 from terrain import Terrain
+from enemy import Goblin
 
 class Stage:
     def __init__(self):
@@ -10,6 +11,7 @@ class Stage:
         self.visible = Camera()
         self.terrain = Terrain([self.visible])
         self.player = Player([self.visible])
+        self.enemy = Goblin([self.visible], self.player)
         
     def run(self):
         
