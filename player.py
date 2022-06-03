@@ -3,7 +3,7 @@ from config import *
 from creature import Creature
 
 class Player(Creature):
-    def __init__(self, group):
+    def __init__(self, group, enemies):
         super().__init__(group)
         self.image_idle_right = []
         self.image_idle_left = []
@@ -13,7 +13,7 @@ class Player(Creature):
         self.image_attack_left = []
 
         for i in range(1, 10):
-            self.image = pygame.image.load(f'assets/player_idle{i}.png').convert_alpha()
+            self.image = pygame.image.load(f'assets/player/player_idle{i}.png').convert_alpha()
             self.image = pygame.transform.scale(self.image, PLAYER_SIZE)
             
             self.image_idle_right.append(self.image)
@@ -22,7 +22,7 @@ class Player(Creature):
             self.rect = self.image.get_rect()
         
         for i in range(1, 10):
-            self.image = pygame.image.load(f'assets/player_run{i}.png').convert_alpha()
+            self.image = pygame.image.load(f'assets/player/player_run{i}.png').convert_alpha()
             self.image = pygame.transform.scale(self.image, PLAYER_SIZE)
             
             self.image_run_right.append(self.image)
@@ -31,7 +31,7 @@ class Player(Creature):
             self.rect = self.image.get_rect()
         
         for i in range(1, 11):
-            self.image = pygame.image.load(f'assets/player_attack{i}.png').convert_alpha()
+            self.image = pygame.image.load(f'assets/player/player_attack{i}.png').convert_alpha()
             self.image = pygame.transform.scale(self.image, PLAYER_SIZE)
             
             self.image_attack_right.append(self.image)
@@ -39,13 +39,17 @@ class Player(Creature):
             self.image_attack_left.append(self.image)
             self.rect = self.image.get_rect()
         
+        self.enemies = enemies
         
         self.rect.x = WINDOW_WIDTH / 2
         self.rect.y = WINDOW_HEIGHT / 2
         self.right = True
         self.running = False
         self.attacking = False
+        self.dashing = False
         self.attack_speed = 2
+
+        self.dash_cooldown = 0
         
         self.index = 0
         self.anim_delay = 0
@@ -59,8 +63,9 @@ class Player(Creature):
         self.direction.x = 0
         self.direction.y = 0
         self.running = True
+        self.dashing = False
         keys = pygame.key.get_pressed()
-        if not self.attacking:
+        if not self.attacking and not self.dashing:
             if keys[pygame.K_w]:
                 self.direction.y = -1
             if keys[pygame.K_a]:
@@ -78,10 +83,14 @@ class Player(Creature):
                     self.direction.x = 0
                 else:
                     self.direction.x = 1
+        if not self.attacking:
+            if keys[pygame.K_SPACE] and self.dash_cooldown <= 0:
+                self.dashing = True
+                self.dash_cooldown = PLAYER_DASH_CD
         if keys[pygame.K_j]:
             if not self.attacking:
-                 self.attacking = True
-                 self.index = 0
+                self.attacking = True
+                self.index = 0
                 
         if self.attacking and self.index >= len(self.image_attack_right):
             self.attacking = False
@@ -95,6 +104,9 @@ class Player(Creature):
             self.right = True
         elif self.direction.x == -1:
             self.right = False
+    
+    def attack(self):
+        pass
      
     def animation(self):
         if self.running:
@@ -136,4 +148,8 @@ class Player(Creature):
     def update(self):
         self.input()
         self.animation()
-        self.move(PLAYER_SPEED)
+        if self.dashing:
+            self.move(PLAYER_DASH)
+        else:
+            self.move(PLAYER_SPEED)
+        self.dash_cooldown -= 1
