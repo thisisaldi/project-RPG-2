@@ -12,6 +12,7 @@ class Stage:
     
     def create_stage(self):
         self.visible = Camera()
+        # self.visible = pygame.sprite.Group()
         self.enemies = pygame.sprite.Group()
         self.terrain = Terrain([self.visible])
         self.player = Player([self.visible], self.enemies)
@@ -22,6 +23,7 @@ class Stage:
     def run(self, interval, now):
         
         self.visible.custom_draw(self.player)
+        # self.visible.draw(self.display)
 
         self.visible.update()
 

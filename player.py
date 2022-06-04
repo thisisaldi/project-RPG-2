@@ -1,5 +1,5 @@
 import pygame
-import soundfx as sfx
+# import soundfx as sfx
 from config import *
 from creature import Creature
 
@@ -112,9 +112,9 @@ class Player(Creature):
     def attack(self):
         if self.attacking and self.index >= 4:
             if self.right:
-                self.hitbox = pygame.rect.Rect(self.rect.centerx, self.rect.top, PLAYER_ATTACK_RANGE + (self.rect.width / 2), self.rect.height)
+                self.hitbox = pygame.rect.Rect(self.rect.centerx, self.rect.top, (self.rect.width / 2), self.rect.height)
             else:
-                self.hitbox = pygame.rect.Rect(self.rect.centerx - PLAYER_ATTACK_RANGE - (self.rect.width / 2), self.rect.top, PLAYER_ATTACK_RANGE + (self.rect.width / 2), self.rect.height)
+                self.hitbox = pygame.rect.Rect(self.rect.left, self.rect.top, (self.rect.width / 2), self.rect.height)
             # pygame.draw.rect(self.display, 'white', self.hitbox, 2)
             for enemy in self.enemies:
                 if self.hitbox.colliderect(enemy.rect):
