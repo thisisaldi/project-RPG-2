@@ -98,6 +98,8 @@ class Player(Creature):
                 
         if self.attacking and self.index >= len(self.image_attack_right):
             self.attacking = False
+            for enemy in self.enemies:
+                enemy.attacked = False
                        
         if self.direction.x == 0 and self.direction.y == 0:
             self.running = False
@@ -117,9 +119,10 @@ class Player(Creature):
                 self.hitbox = pygame.rect.Rect(self.rect.left, self.rect.top, (self.rect.width / 2), self.rect.height)
             # pygame.draw.rect(self.display, 'white', self.hitbox, 2)
             for enemy in self.enemies:
-                if self.hitbox.colliderect(enemy.rect):
+                if self.hitbox.colliderect(enemy.rect) and enemy.attacked == False:
                     enemy.hp -= self.base_damage
-     
+                    enemy.attacked = True
+                    
     def animation(self):
         if self.running:
             if self.index >=  len(self.image_run_right):

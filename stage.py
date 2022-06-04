@@ -11,9 +11,9 @@ class Stage:
         self.create_stage()
     
     def create_stage(self):
-        self.visible = Camera()
         # self.visible = pygame.sprite.Group()
         self.enemies = pygame.sprite.Group()
+        self.visible = Camera(self.enemies)
         self.terrain = Terrain([self.visible])
         self.player = Player([self.visible], self.enemies)
         # self.enemy1 = Goblin([self.visible, self.enemies], self.player, self.enemies, (random.randint(-100, 100), random.randint(-100, 100)))

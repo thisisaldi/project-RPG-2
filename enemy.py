@@ -7,6 +7,7 @@ from creature import Creature
 class Enemy(Creature):
     def __init__(self, group, player, enemies):
         super().__init__(group)
+        self.display = pygame.display.get_surface()
         self.player = player
         self.enemies = enemies
         self.distance = pygame.math.Vector2()
@@ -14,10 +15,12 @@ class Enemy(Creature):
             self.stats = json.load(enemy_stats)
             
         self.attacking = False
+        self.attacked = False
 
     def config_stats(self, name):
         self.name = name
-        self.hp = self.stats[self.name]['HP']
+        self.max_hp = self.stats[self.name]['HP']
+        self.hp = self.max_hp
         self.damage = self.stats[self.name]['Damage']
         self.level = self.stats[self.name]['Level']
         self.range = self.stats[self.name]['Range']
@@ -75,12 +78,19 @@ class Enemy(Creature):
             self.right = True
         elif self.direction.x < 0:
             self.right = False
+            
+    def hp_bar(self):
+        red = (self.rect.width * self.hp) // self.max_hp
+        white = self.rect.width - red
+        self.hp1 = pygame.rect.Rect(self.rect.left, self.rect.top - (6 * SCALE * ZOOM), red, 1)
+        self.hp2 = pygame.rect.Rect(self.rect.left + red, self.rect.top - (6 * SCALE * ZOOM), white, 1)
+        # pygame.draw.rect(self.display, 'red', hp1, 6)
+        # pygame.draw.rect(self.display, 'white', hp2, 6)
 
 class Goblin(Enemy):
     def __init__(self, group, player, enemies, pos):
         super().__init__(group, player, enemies)
         self.config_stats('Goblin')
-        self.display = pygame.display.get_surface()
         self.image_idle_right = []
         self.image_idle_left = []
         self.image_run_right = []
@@ -125,6 +135,8 @@ class Goblin(Enemy):
         self.speed = ENEMY_SPEED
         self.idle = False
         self.right = True
+    
+        self.hp_bar()
     
     def animation(self):
         if not self.idle and not self.attacking:
@@ -175,6 +187,7 @@ class Goblin(Enemy):
             self.alive = False
 
         if self.alive:
+            self.hp_bar()
             self.animation()
             self.move()
             # pygame.draw.rect(self.display, 'white', self.rect, 2)
@@ -183,7 +196,6 @@ class MaskedOrc(Enemy):
     def __init__(self, group, player, enemies, pos):
         super().__init__(group, player, enemies)
         self.config_stats('Masked Orc')
-        self.display = pygame.display.get_surface()
         self.image_idle_right = []
         self.image_idle_left = []
         self.image_run_right = []
@@ -228,6 +240,8 @@ class MaskedOrc(Enemy):
         self.speed = ENEMY_SPEED
         self.idle = False
         self.right = True
+        
+        self.hp_bar()
     
     def animation(self):
         if not self.idle and not self.attacking:
@@ -278,6 +292,7 @@ class MaskedOrc(Enemy):
             self.alive = False
         print(self.alive)
         if self.alive:
+            self.hp_bar()
             self.animation()
             self.move()
             # pygame.draw.rect(self.display, 'white', self.rect, 2)

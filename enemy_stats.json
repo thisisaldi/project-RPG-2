@@ -1,6 +1,6 @@
 {
     "Goblin": {
-        "HP" : 5,
+        "HP" : 50,
         "Damage" : 2,
         "Level" : 2,
         "Range" : 400,
@@ -8,7 +8,7 @@
     },
 
     "Masked Orc" : {
-        "HP" : 2,
+        "HP" : 75,
         "Damage" : 2,
         "Level" : 2,
         "Range" : 400,
