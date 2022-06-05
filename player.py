@@ -157,7 +157,7 @@ class Player(Creature):
             else:
                 self.image = self.image_hurt_left[self.index]
             self.anim_delay += 1
-            if self.anim_delay >= PLAYER_RUN_DELAY:
+            if self.anim_delay >= PLAYER_HURT_DELAY:
                 self.index += 1
                 self.anim_delay = 0
         
