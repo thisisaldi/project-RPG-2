@@ -9,7 +9,7 @@ class Camera(pygame.sprite.Group):
         self.display = pygame.display.get_surface()
         self.offset = pygame.math.Vector2()
         self.enemies = enemies
-        self.gradient = pygame.image.load('assets/gradient.png').convert_alpha()
+        self.gradient = pygame.image.load('assets/vignette.png').convert_alpha()
         self.gradient = pygame.transform.scale(self.gradient, WINDOW_SIZE)
            
     def custom_draw(self, player):
