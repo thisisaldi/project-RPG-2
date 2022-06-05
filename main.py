@@ -9,12 +9,10 @@ from game import Game
         - Other fixes
     - Sound FX
     - Map Optimization (Obstacle and others)
-
+    - Lighting
+    - Enemy animations
 
 """
-
-
-
 
 if __name__ == '__main__':
     game = Game()
