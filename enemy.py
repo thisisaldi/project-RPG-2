@@ -169,6 +169,8 @@ class Goblin(Enemy):
             if self.index >= 5:
                 if self.rect.colliderect(self.player.rect) and not self.damaged:
                     self.player.hp -= self.damage
+                    self.player.hurt = True
+                    self.player.index = 0
                     self.damaged = True
             if self.index >= len(self.image_attacking_right):
                 self.index = 0
@@ -271,9 +273,10 @@ class MaskedOrc(Enemy):
                 self.anim_delay = 0
         
         elif self.attacking:
-            if self.index >= 5:
+            if self.index >= 2:
                 if self.rect.colliderect(self.player.rect) and not self.damaged:
                     self.player.hp -= self.damage
+                    self.player.hurt = True
                     self.damaged = True
             if self.index >= len(self.image_attacking_right):
                 self.index = 0

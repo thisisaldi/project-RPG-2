@@ -12,6 +12,9 @@ class Player(Creature):
         self.image_run_left = []
         self.image_attack_right = []
         self.image_attack_left = []
+        self.image_hurt_right = []
+        self.image_hurt_left = []
+        
         self.display = pygame.display.get_surface()
         for i in range(1, 5):
             self.image = pygame.image.load(f'assets/player/player_idle_anim_f{i}.png').convert_alpha()
@@ -40,6 +43,15 @@ class Player(Creature):
             self.image_attack_left.append(self.image)
             self.rect = self.image.get_rect()
         
+        for i in range(1, 9):
+            self.image = pygame.image.load(f'assets/player/player_hurt_anim_f{i}.png').convert_alpha()
+            self.image = pygame.transform.scale(self.image, (PLAYER_WIDTH * 2, PLAYER_HEIGHT))
+            
+            self.image_hurt_right.append(self.image)
+            self.image = pygame.transform.flip(self.image, True, False)
+            self.image_hurt_left.append(self.image)
+            self.rect = self.image.get_rect()
+        
         self.enemies = enemies
         
         self.rect.x = WINDOW_WIDTH / 2
@@ -49,6 +61,7 @@ class Player(Creature):
         self.attacking = False
         self.dashing = False
         self.damaged = False
+        self.hurt = False
         self.attack_speed = 3
 
         self.dash_cooldown = 0
@@ -124,7 +137,31 @@ class Player(Creature):
                     enemy.attacked = True
                     
     def animation(self):
-        if self.running:
+        if self.attacking:
+            if self.index >=  len(self.image_attack_right):
+                self.index = 0
+            if self.right:
+                self.image = self.image_attack_right[self.index]
+            else:
+                self.image = self.image_attack_left[self.index]
+            self.anim_delay += 1
+            if self.anim_delay >= self.attack_speed:
+                self.index += 1
+                self.anim_delay = 0
+        elif self.hurt:
+            if self.index >= len(self.image_hurt_right):
+                self.index = 0
+                self.hurt = False
+            if self.right:
+                self.image = self.image_hurt_right[self.index]
+            else:
+                self.image = self.image_hurt_left[self.index]
+            self.anim_delay += 1
+            if self.anim_delay >= PLAYER_RUN_DELAY:
+                self.index += 1
+                self.anim_delay = 0
+        
+        elif self.running:
             if self.index >=  len(self.image_run_right):
                 self.index = 0
             if self.right:
@@ -136,17 +173,6 @@ class Player(Creature):
                 self.index += 1
                 self.anim_delay = 0
                 
-        elif self.attacking:
-            if self.index >=  len(self.image_attack_right):
-                self.index = 0
-            if self.right:
-                self.image = self.image_attack_right[self.index]
-            else:
-                self.image = self.image_attack_left[self.index]
-            self.anim_delay += 1
-            if self.anim_delay >= self.attack_speed:
-                self.index += 1
-                self.anim_delay = 0
                 
         else:
             if self.index >= len(self.image_idle_right):
