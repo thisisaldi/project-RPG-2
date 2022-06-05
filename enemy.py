@@ -16,6 +16,8 @@ class Enemy(Creature):
             
         self.attacking = False
         self.attacked = False
+        
+
 
     def config_stats(self, name):
         self.name = name
@@ -185,7 +187,7 @@ class Goblin(Enemy):
     def update(self):
         if self.hp <= 0:
             self.alive = False
-
+            self.kill()
         if self.alive:
             self.hp_bar()
             self.animation()
@@ -290,7 +292,7 @@ class MaskedOrc(Enemy):
     def update(self):
         if self.hp <= 0:
             self.alive = False
-        print(self.alive)
+            self.kill()
         if self.alive:
             self.hp_bar()
             self.animation()
