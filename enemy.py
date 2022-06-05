@@ -1,6 +1,7 @@
 import pygame
 import math
 import json
+import soundfx as sfx
 from config import *
 from creature import Creature
 
@@ -290,11 +291,10 @@ class MaskedOrc(Enemy):
                 self.index += 1
                 self.anim_delay = 0
 
-
-
     def update(self):
         if self.hp <= 0:
             self.alive = False
+            sfx.enemy_hit_sound()
             self.kill()
         if self.alive:
             self.hp_bar()
