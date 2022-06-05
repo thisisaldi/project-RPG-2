@@ -1,6 +1,7 @@
 import pygame
 from config import *
 from terrain import Terrain
+from player import Player
 
 class Camera(pygame.sprite.Group):
     def __init__(self, enemies):
@@ -16,9 +17,16 @@ class Camera(pygame.sprite.Group):
         self.offset.y = player.rect.centery - (WINDOW_HEIGHT / 2)
         for sprite in self.sprites():
             if sprite.alive:
-                offset_pos = sprite.rect.topleft - self.offset
+                if isinstance(sprite, Player):
+                    rect = sprite.image.get_rect(center = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2))
+                    offset_pos = rect.topleft - self.offset
+                else:
+                    offset_pos = sprite.rect.topleft - self.offset
                 self.display.blit(sprite.image, offset_pos)
-            
+                temp = sprite.rect
+                temp.topleft = temp.topleft - self.offset
+                pygame.draw.rect(self.display, 'white', temp, 2)
+
             if sprite in self.enemies:
                 sprite.hp1.topleft = sprite.hp1.topleft - self.offset
                 sprite.hp2.topleft = sprite.hp2.topleft - self.offset

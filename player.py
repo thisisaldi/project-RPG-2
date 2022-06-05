@@ -23,7 +23,6 @@ class Player(Creature):
             self.image_idle_right.append(self.image)
             self.image = pygame.transform.flip(self.image, True, False)
             self.image_idle_left.append(self.image)
-            self.rect = self.image.get_rect()
         
         for i in range(1, 5):
             self.image = pygame.image.load(f'assets/player/player_run_anim_f{i}.png').convert_alpha()
@@ -32,7 +31,6 @@ class Player(Creature):
             self.image_run_right.append(self.image)
             self.image = pygame.transform.flip(self.image, True, False)
             self.image_run_left.append(self.image)
-            self.rect = self.image.get_rect()
         
         for i in range(1, 9):
             self.image = pygame.image.load(f'assets/player/player_attack_anim_f{i}.png').convert_alpha()
@@ -41,7 +39,6 @@ class Player(Creature):
             self.image_attack_right.append(self.image)
             self.image = pygame.transform.flip(self.image, True, False)
             self.image_attack_left.append(self.image)
-            self.rect = self.image.get_rect()
         
         for i in range(1, 9):
             self.image = pygame.image.load(f'assets/player/player_hurt_anim_f{i}.png').convert_alpha()
@@ -50,10 +47,12 @@ class Player(Creature):
             self.image_hurt_right.append(self.image)
             self.image = pygame.transform.flip(self.image, True, False)
             self.image_hurt_left.append(self.image)
-            self.rect = self.image.get_rect()
-        
+
+
         self.enemies = enemies
         
+        self.rect = pygame.rect.Rect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
+        self.rect = self.rect.inflate(-self.rect.width / 8, -self.rect.height / 8)
         self.rect.x = WINDOW_WIDTH / 2
         self.rect.y = WINDOW_HEIGHT / 2
         self.right = True
@@ -127,9 +126,9 @@ class Player(Creature):
     def attack(self):
         if self.attacking and self.index >= 4:
             if self.right:
-                self.hitbox = pygame.rect.Rect(self.rect.centerx, self.rect.top, (self.rect.width / 2), self.rect.height)
+                self.hitbox = pygame.rect.Rect(self.rect.centerx, self.rect.top, (self.rect.width / 2) + PLAYER_ATTACK_RANGE, self.rect.height)
             else:
-                self.hitbox = pygame.rect.Rect(self.rect.left, self.rect.top, (self.rect.width / 2), self.rect.height)
+                self.hitbox = pygame.rect.Rect(self.rect.left - PLAYER_ATTACK_RANGE, self.rect.top, (self.rect.width / 2) + PLAYER_ATTACK_RANGE, self.rect.height)
             # pygame.draw.rect(self.display, 'white', self.hitbox, 2)
             for enemy in self.enemies:
                 if self.hitbox.colliderect(enemy.rect) and enemy.attacked == False:
@@ -195,3 +194,4 @@ class Player(Creature):
         else:
             self.move(PLAYER_SPEED)
         self.dash_cooldown -= 1
+        
