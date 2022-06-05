@@ -1,5 +1,5 @@
 import pygame
-# import soundfx as sfx
+import soundfx as sfx
 from config import *
 from creature import Creature
 
@@ -34,7 +34,7 @@ class Player(Creature):
         
         for i in range(1, 9):
             self.image = pygame.image.load(f'assets/player/player_attack_anim_f{i}.png').convert_alpha()
-            self.image = pygame.transform.scale(self.image, (PLAYER_WIDTH * 2, PLAYER_HEIGHT))
+            self.image = pygame.transform.scale(self.image, (PLAYER_SIZE))
             
             self.image_attack_right.append(self.image)
             self.image = pygame.transform.flip(self.image, True, False)
@@ -102,11 +102,13 @@ class Player(Creature):
             if keys[pygame.K_SPACE] and self.dash_cooldown <= 0:
                 self.dashing = True
                 self.dash_cooldown = PLAYER_DASH_CD
+                # sfx.player_dash_voice()
         if keys[pygame.K_j]:
             if not self.attacking:
                 self.attacking = True
-                # sfx.player_attack_sound()
                 self.index = 0
+                sfx.player_attack_sound()
+                
                 
         if self.attacking and self.index >= len(self.image_attack_right):
             self.attacking = False
