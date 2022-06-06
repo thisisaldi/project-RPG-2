@@ -111,7 +111,7 @@ class Player(Creature):
             if keys[pygame.K_SPACE] and self.dash_cooldown <= 0:
                 self.dashing = True
                 self.index = 0
-                sfx.player_dash_voice()
+                self.dash_cooldown = PLAYER_DASH_CD
         if keys[pygame.K_j]:
             if not self.attacking and not self.dashing:
                 self.attacking = True
@@ -161,18 +161,6 @@ class Player(Creature):
             if self.anim_delay >= self.attack_speed:
                 self.index += 1
                 self.anim_delay = 0
-        elif self.hurt:
-            if self.index >= len(self.image_hurt_right):
-                self.index = 0
-                self.hurt = False
-            if self.right:
-                self.image = self.image_hurt_right[self.index]
-            else:
-                self.image = self.image_hurt_left[self.index]
-            self.anim_delay += 1
-            if self.anim_delay >= PLAYER_HURT_DELAY:
-                self.index += 1
-                self.anim_delay = 0
         
         elif self.running:
             if self.index >=  len(self.image_run_right):
@@ -187,6 +175,8 @@ class Player(Creature):
                 self.anim_delay = 0
         
         elif self.dashing:        
+            if self.index == 0:
+                sfx.player_dash_voice()
             if self.index >=  len(self.image_dash_right):
                 self.index = 0
                 self.dashing = False
@@ -197,6 +187,18 @@ class Player(Creature):
                 self.image = self.image_dash_left[self.index]
             self.anim_delay += 1
             if self.anim_delay >= PLAYER_DASH_DELAY:
+                self.index += 1
+                self.anim_delay = 0
+        elif self.hurt:
+            if self.index >= len(self.image_hurt_right):
+                self.index = 0
+                self.hurt = False
+            if self.right:
+                self.image = self.image_hurt_right[self.index]
+            else:
+                self.image = self.image_hurt_left[self.index]
+            self.anim_delay += 1
+            if self.anim_delay >= PLAYER_HURT_DELAY:
                 self.index += 1
                 self.anim_delay = 0
         else:
