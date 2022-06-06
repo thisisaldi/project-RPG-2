@@ -109,7 +109,6 @@ class Goblin(Enemy):
             self.image = pygame.transform.flip(self.image, True, False)
             self.image_idle_left.append(self.image)
         
-        self.rect = self.image.get_rect()
 
         for i in range(0, 4):
             self.image = pygame.image.load(f'assets/enemies/goblin_run_anim_f{i}.png').convert_alpha() # png belom diganti
@@ -119,7 +118,6 @@ class Goblin(Enemy):
             self.image = pygame.transform.flip(self.image, True, False)
             self.image_run_left.append(self.image)
         
-        self.rect = self.image.get_rect()
 
         for i in range(1, 9):
             self.image = pygame.image.load(f'assets/enemies/goblin_attack_anim_f{i}.png').convert_alpha()
@@ -129,10 +127,10 @@ class Goblin(Enemy):
             self.image = pygame.transform.flip(self.image, True, False)
             self.image_attacking_left.append(self.image)
         
-        self.rect = self.image.get_rect()
+        self.rect = pygame.rect.Rect(0, 0, ENEMY_WIDTH, ENEMY_HEIGHT)
 
-        self.rect.x = pos[0]
-        self.rect.y = pos[1]
+        self.rect.centerx = pos[0]
+        self.rect.centery = pos[1]
         self.index = 0
         self.anim_delay = 0
         self.speed = ENEMY_SPEED
@@ -216,7 +214,6 @@ class MaskedOrc(Enemy):
             self.image = pygame.transform.flip(self.image, True, False)
             self.image_idle_left.append(self.image)
         
-        self.rect = self.image.get_rect()
 
         for i in range(1, 5):
             self.image = pygame.image.load(f'assets/enemies/masked_orc_run_anim_f{i}.png').convert_alpha() # png belom diganti
@@ -226,7 +223,6 @@ class MaskedOrc(Enemy):
             self.image = pygame.transform.flip(self.image, True, False)
             self.image_run_left.append(self.image)
         
-        self.rect = self.image.get_rect()
 
         for i in range(1, 9):
             self.image = pygame.image.load(f'assets/enemies/masked_orc_attack_anim_f{i}.png').convert_alpha()
@@ -236,10 +232,11 @@ class MaskedOrc(Enemy):
             self.image = pygame.transform.flip(self.image, True, False)
             self.image_attacking_left.append(self.image)
         
-        # self.rect = self.image.get_rect()
+        self.rect = pygame.rect.Rect(0, 0, ENEMY_WIDTH, ENEMY_HEIGHT)
+        self.rect = self.rect.inflate(-ENEMY_WIDTH / 3, -ENEMY_HEIGHT / 3)
 
-        self.rect.x = pos[0]
-        self.rect.y = pos[1]
+        self.rect.centerx = pos[0]
+        self.rect.centery = pos[1]
         self.index = 0
         self.anim_delay = 0
         self.speed = ENEMY_SPEED

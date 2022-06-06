@@ -63,8 +63,8 @@ class Player(Creature):
         
         self.rect = pygame.rect.Rect(0, 0, PLAYER_WIDTH, PLAYER_HEIGHT)
         self.rect = self.rect.inflate(-self.rect.width / 8, -self.rect.height / 8)
-        self.rect.x = WINDOW_WIDTH / 2
-        self.rect.y = WINDOW_HEIGHT / 2
+        self.rect.centerx = WINDOW_WIDTH / 2
+        self.rect.centery = WINDOW_HEIGHT / 2
         self.right = True
         self.running = False
         self.attacking = False

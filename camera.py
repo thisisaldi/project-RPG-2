@@ -23,11 +23,14 @@ class Camera(pygame.sprite.Group):
                     rect = sprite.image.get_rect(center = (WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2))
                     offset_pos = rect.topleft - self.offset
                 else:
-                    offset_pos = sprite.rect.topleft - self.offset
+                    rect = sprite.image.get_rect()
+                    rect.left = sprite.rect.left - (ENEMY_WIDTH * 2 / 3)
+                    rect.top = sprite.rect.top - ((ENEMY_HEIGHT / 8) * 3)
+                    offset_pos = rect.topleft - self.offset
                 self.display.blit(sprite.image, offset_pos)
                 temp = sprite.rect
                 temp.topleft = temp.topleft - self.offset
-                # pygame.draw.rect(self.display, 'white', temp, 2)
+                pygame.draw.rect(self.display, 'white', temp, 2)
 
             if sprite in self.enemies:
                 sprite.hp1.topleft = sprite.hp1.topleft - self.offset
