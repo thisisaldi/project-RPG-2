@@ -14,6 +14,8 @@ class Player(Creature):
         self.image_attack_left = []
         self.image_hurt_right = []
         self.image_hurt_left = []
+        self.image_dash_right = []
+        self.image_dash_left = []
         
         self.display = pygame.display.get_surface()
         for i in range(1, 5):
@@ -47,6 +49,14 @@ class Player(Creature):
             self.image_hurt_right.append(self.image)
             self.image = pygame.transform.flip(self.image, True, False)
             self.image_hurt_left.append(self.image)
+        
+        for i in range(1, 9):
+            self.image = pygame.image.load(f'assets/player/player_dash_anim_f{i}.png').convert_alpha()
+            self.image = pygame.transform.scale(self.image, (PLAYER_WIDTH * 2, PLAYER_HEIGHT))
+            
+            self.image_dash_right.append(self.image)
+            self.image = pygame.transform.flip(self.image, True, False)
+            self.image_dash_left.append(self.image)
 
 
         self.enemies = enemies
@@ -78,9 +88,8 @@ class Player(Creature):
         self.direction.x = 0
         self.direction.y = 0
         self.running = True
-        self.dashing = False
         keys = pygame.key.get_pressed()
-        if not self.attacking and not self.dashing:
+        if not self.attacking:
             if keys[pygame.K_w]:
                 self.direction.y = -1
             if keys[pygame.K_a]:
@@ -98,13 +107,13 @@ class Player(Creature):
                     self.direction.x = 0
                 else:
                     self.direction.x = 1
-        if not self.attacking:
+        if not self.attacking and not self.dashing:
             if keys[pygame.K_SPACE] and self.dash_cooldown <= 0:
                 self.dashing = True
-                self.dash_cooldown = PLAYER_DASH_CD
-                # sfx.player_dash_voice()
+                self.index = 0
+                sfx.player_dash_voice()
         if keys[pygame.K_j]:
-            if not self.attacking:
+            if not self.attacking and not self.dashing:
                 self.attacking = True
                 self.index = 0
                 sfx.player_attack_sound()
@@ -116,6 +125,9 @@ class Player(Creature):
                 enemy.attacked = False
                        
         if self.direction.x == 0 and self.direction.y == 0:
+            self.running = False
+            self.dashing = False
+        elif self.dashing:
             self.running = False
         else:
             self.running = True
@@ -173,8 +185,20 @@ class Player(Creature):
             if self.anim_delay >= PLAYER_RUN_DELAY:
                 self.index += 1
                 self.anim_delay = 0
-                
-                
+        
+        elif self.dashing:        
+            if self.index >=  len(self.image_dash_right):
+                self.index = 0
+                self.dashing = False
+                self.dash_cooldown = PLAYER_DASH_CD
+            if self.right:
+                self.image = self.image_dash_right[self.index]
+            else:
+                self.image = self.image_dash_left[self.index]
+            self.anim_delay += 1
+            if self.anim_delay >= PLAYER_DASH_DELAY:
+                self.index += 1
+                self.anim_delay = 0
         else:
             if self.index >= len(self.image_idle_right):
                 self.index = 0
@@ -186,8 +210,16 @@ class Player(Creature):
             if self.anim_delay >= PLAYER_IDLE_DELAY:
                 self.index += 1
                 self.anim_delay = 0
+                
+    def dash(self):
+        if self.direction.magnitude() != 0:
+            self.direction = self.direction.normalize()
+        
+        self.rect.x += self.direction.x * PLAYER_DASH
+        self.rect.y += self.direction.y * PLAYER_DASH
             
     def update(self):
+        print(self.dashing)
         self.attack()
         self.input()
         self.animation()
@@ -195,5 +227,6 @@ class Player(Creature):
             self.move(PLAYER_DASH)
         else:
             self.move(PLAYER_SPEED)
-        self.dash_cooldown -= 1
+            self.dash_cooldown -= 1
+
         
