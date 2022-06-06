@@ -72,11 +72,14 @@ class Player(Creature):
         self.damaged = False
         self.hurt = False
         self.attack_speed = 3
-
+        
         self.dash_cooldown = 0
         
         self.index = 0
         self.anim_delay = 0
+        self.sound_footsteps_index = 0
+        self.sound_footsteps_delay = 0
+
         
         self.level = 1
         self.base_damage = PLAYER_BASE_DAMAGE + (PLAYER_GROWTH_DAMAGE * (self.level - 1))
@@ -112,6 +115,8 @@ class Player(Creature):
                 self.dashing = True
                 self.index = 0
                 self.dash_cooldown = PLAYER_DASH_CD
+                # sfx.player_dash_voice()
+                # sfx.player_dash_sound()
         if keys[pygame.K_j]:
             if not self.attacking and not self.dashing:
                 self.attacking = True
@@ -136,6 +141,7 @@ class Player(Creature):
             self.right = True
         elif self.direction.x == -1:
             self.right = False
+
     
     def attack(self):
         if self.attacking and self.index >= 4:
@@ -148,6 +154,7 @@ class Player(Creature):
                 if self.hitbox.colliderect(enemy.rect) and enemy.attacked == False:
                     enemy.hp -= self.base_damage
                     enemy.attacked = True
+                    sfx.enemy_hit_sound()
                     
     def animation(self):
         if self.attacking:
@@ -176,7 +183,7 @@ class Player(Creature):
         
         elif self.dashing:        
             if self.index == 0:
-                sfx.player_dash_voice()
+                sfx.player_dash_sound()
             if self.index >=  len(self.image_dash_right):
                 self.index = 0
                 self.dashing = False

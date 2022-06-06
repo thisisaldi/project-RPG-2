@@ -1,4 +1,5 @@
 import pygame, random
+import soundfx as sfx
 from config import *
 from player import Player
 from camera import Camera
@@ -16,6 +17,7 @@ class Stage:
         self.visible = Camera(self.enemies)
         self.terrain = Terrain([self.visible])
         self.player = Player([self.visible], self.enemies)
+        sfx.ambience_sound()
         # self.enemy1 = Goblin([self.visible, self.enemies], self.player, self.enemies, (random.randint(-100, 100), random.randint(-100, 100)))
         self.enemy2 = MaskedOrc([self.visible, self.enemies], self.player, self.enemies, (random.randint(-50, 50), random.randint(-50, 50)))
         
