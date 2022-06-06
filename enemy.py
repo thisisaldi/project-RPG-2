@@ -208,7 +208,7 @@ class MaskedOrc(Enemy):
         self.image_attacking_right = []
         self.image_attacking_left = []
 
-        for i in range(0, 4):
+        for i in range(1, 5):
             self.image = pygame.image.load(f'assets/enemies/masked_orc_idle_anim_f{i}.png').convert_alpha() # png belom diganti
             self.image = pygame.transform.scale(self.image, ENEMY_SIZE)
 
@@ -218,7 +218,7 @@ class MaskedOrc(Enemy):
         
         self.rect = self.image.get_rect()
 
-        for i in range(0, 4):
+        for i in range(1, 5):
             self.image = pygame.image.load(f'assets/enemies/masked_orc_run_anim_f{i}.png').convert_alpha() # png belom diganti
             self.image = pygame.transform.scale(self.image, ENEMY_SIZE)
 
@@ -228,8 +228,8 @@ class MaskedOrc(Enemy):
         
         self.rect = self.image.get_rect()
 
-        for i in range(0, 4):
-            self.image = pygame.image.load(f'assets/enemies/masked_orc_idle_anim_f{i}.png').convert_alpha()
+        for i in range(1, 9):
+            self.image = pygame.image.load(f'assets/enemies/masked_orc_attack_anim_f{i}.png').convert_alpha()
             self.image = pygame.transform.scale(self.image, ENEMY_SIZE)
 
             self.image_attacking_right.append(self.image)

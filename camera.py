@@ -32,7 +32,7 @@ class Camera(pygame.sprite.Group):
             if sprite in self.enemies:
                 sprite.hp1.topleft = sprite.hp1.topleft - self.offset
                 sprite.hp2.topleft = sprite.hp2.topleft - self.offset
-                pygame.draw.rect(self.display, 'red', sprite.hp1, 5)
+                # pygame.draw.rect(self.display, 'red', sprite.hp1, 5)
                 # pygame.draw.rect(self.display, 'white', sprite.hp2, 5)
                 
         self.display.blit(self.vignette, (0, 0))
