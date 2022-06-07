@@ -46,7 +46,7 @@ class Enemy(Creature):
 
     def check_distance(self, range):
         self.distance = math.sqrt((self.direction.x)**2 + (self.direction.y)**2)
-        return (self.distance < range and self.distance >= 60)
+        return (self.distance < range * SCALE * ZOOM and self.distance >= 60 * SCALE * ZOOM)
                         
     def move(self):
 
@@ -276,6 +276,7 @@ class MaskedOrc(Enemy):
                     self.player.hp -= self.damage
                     self.player.hurt = True
                     self.damaged = True
+                    sfx.masked_orc_attack_sound()
             if self.index >= len(self.image_attacking_right):
                 self.index = 0
                 self.attacking = False
@@ -291,7 +292,7 @@ class MaskedOrc(Enemy):
     def update(self):
         if self.hp <= 0:
             self.alive = False
-            sfx.enemy_hit_sound()
+            sfx.masked_orc_death_sound()
             self.kill()
         if self.alive:
             self.hp_bar()
