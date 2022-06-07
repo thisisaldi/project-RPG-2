@@ -77,9 +77,6 @@ class Player(Creature):
         
         self.index = 0
         self.anim_delay = 0
-        self.sound_footsteps_index = 0
-        self.sound_footsteps_delay = 0
-
         
         self.level = 1
         self.base_damage = PLAYER_BASE_DAMAGE + (PLAYER_GROWTH_DAMAGE * (self.level - 1))
@@ -230,7 +227,7 @@ class Player(Creature):
         self.rect.y += self.direction.y * PLAYER_DASH
             
     def update(self):
-        print(self.dashing)
+        # print(self.dashing)
         self.attack()
         self.input()
         self.animation()

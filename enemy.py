@@ -64,7 +64,7 @@ class Enemy(Creature):
             self.rect.y += self.direction.y
             self.collision('y')
 
-        elif self.distance < 60 and not self.attacking:
+        elif self.distance < 75 and not self.attacking:
             self.attacking = True
             self.damaged = False
             self.idle = False
@@ -299,3 +299,4 @@ class MaskedOrc(Enemy):
             self.animation()
             self.move()
             # pygame.draw.rect(self.display, 'white', self.rect, 2)
+        print(self.distance)
