@@ -41,6 +41,6 @@ class Camera(pygame.sprite.Group):
                 # pygame.draw.rect(self.display, 'red', sprite.hp1, 5)
                 # pygame.draw.rect(self.display, 'white', sprite.hp2, 5)
                 
-        self.display.blit(self.vignette, (0, 0))
+        # self.display.blit(self.vignette, (0, 0))
         self.display.blit(self.lighting, (0, 0))
                 
