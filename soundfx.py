@@ -8,9 +8,9 @@ def ambience_sound():
     pygame.mixer.music.set_volume(0.5 * VOLUME_LEVEL)
     pygame.mixer.music.play(-1)
 
-def player_footsteps_sound(index):
-    sound = pygame.mixer.Sound(f"soundfx/player/footstep{index}.ogg")
-    sound.set_volume(1 * VOLUME_LEVEL)
+def player_footsteps_sound():
+    sound = pygame.mixer.Sound(f"soundfx/player/footstep.ogg")
+    sound.set_volume(0.5 * VOLUME_LEVEL)
     sound.play()
 
 def player_attack_sound():

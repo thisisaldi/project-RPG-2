@@ -180,6 +180,8 @@ class Player(Creature):
             if self.anim_delay >= PLAYER_RUN_DELAY:
                 self.index += 1
                 self.anim_delay = 0
+                if self.index == 1:
+                    sfx.player_footsteps_sound()
         
         elif self.dashing:        
             if self.index == 0:
