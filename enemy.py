@@ -100,7 +100,7 @@ class Goblin(Enemy):
         self.image_run_left = []
         self.image_attacking_right = []
         self.image_attacking_left = []
-
+        
         for i in range(0, 4):
             self.image = pygame.image.load(f'assets/enemies/goblin_idle_anim_f{i}.png').convert_alpha() # png belom diganti
             self.image = pygame.transform.scale(self.image, ENEMY_SIZE)
@@ -128,6 +128,7 @@ class Goblin(Enemy):
             self.image_attacking_left.append(self.image)
         
         self.rect = pygame.rect.Rect(0, 0, ENEMY_WIDTH, ENEMY_HEIGHT)
+        self.rect = self.rect.inflate(-ENEMY_WIDTH / 3, -ENEMY_HEIGHT / 3)
 
         self.rect.centerx = pos[0]
         self.rect.centery = pos[1]
@@ -299,4 +300,106 @@ class MaskedOrc(Enemy):
             self.animation()
             self.move()
             # pygame.draw.rect(self.display, 'white', self.rect, 2)
-        print(self.distance)
+
+class Boss(Enemy):
+    def __init__(self, group, player, enemies, pos):
+        super().__init__(group, player, enemies)
+        self.config_stats('Ogre')
+        self.image_idle_right = []
+        self.image_idle_left = []
+        self.image_run_right = []
+        self.image_run_left = []
+        self.image_attacking_right = []
+        self.image_attacking_left = []
+
+        for i in range(0, 4):
+            self.image = pygame.image.load(f'assets/enemies/ogre_idle_anim_f{i}.png').convert_alpha() # png belom diganti
+            self.image = pygame.transform.scale(self.image, ENEMY_SIZE)
+
+            self.image_idle_right.append(self.image)
+            self.image = pygame.transform.flip(self.image, True, False)
+            self.image_idle_left.append(self.image)
+        
+
+        for i in range(0, 4):
+            self.image = pygame.image.load(f'assets/enemies/ogre_run_anim_f{i}.png').convert_alpha() # png belom diganti
+            self.image = pygame.transform.scale(self.image, ENEMY_SIZE)
+
+            self.image_run_right.append(self.image)
+            self.image = pygame.transform.flip(self.image, True, False)
+            self.image_run_left.append(self.image)
+        
+
+        for i in range(0, 4):
+            self.image = pygame.image.load(f'assets/enemies/ogre_idle_anim_f{i}.png').convert_alpha()
+            self.image = pygame.transform.scale(self.image, ENEMY_SIZE)
+
+            self.image_attacking_right.append(self.image)
+            self.image = pygame.transform.flip(self.image, True, False)
+            self.image_attacking_left.append(self.image)
+        
+        self.rect = pygame.rect.Rect(0, 0, ENEMY_WIDTH, ENEMY_HEIGHT)
+        self.rect = self.rect.inflate(-ENEMY_WIDTH / 3, -ENEMY_HEIGHT / 3)
+
+        self.rect.centerx = pos[0]
+        self.rect.centery = pos[1]
+        self.index = 0
+        self.anim_delay = 0
+        self.speed = ENEMY_SPEED
+        self.idle = False
+        self.right = True
+        
+        self.hp_bar()
+    
+    def animation(self):
+        if not self.idle and not self.attacking:
+            if self.index >= len(self.image_run_right):
+                self.index = 0
+            if self.right:
+                self.image = self.image_run_right[self.index]
+            else:
+                self.image = self.image_run_left[self.index]
+            self.anim_delay += 1
+            if self.anim_delay >= ENEMY_DELAY:
+                self.index += 1
+                self.anim_delay = 0
+
+        elif self.idle:
+            if self.index >= len(self.image_idle_right):
+                self.index = 0
+            if self.right:
+                self.image = self.image_idle_right[self.index]
+            else:
+                self.image = self.image_idle_left[self.index]
+            self.anim_delay += 1
+            if self.anim_delay >= ENEMY_DELAY:
+                self.index += 1
+                self.anim_delay = 0
+        
+        elif self.attacking:
+            if self.index >= 2:
+                if self.rect.colliderect(self.player.rect) and not self.damaged:
+                    self.player.hp -= self.damage
+                    self.player.hurt = True
+                    self.damaged = True
+            if self.index >= len(self.image_attacking_right):
+                self.index = 0
+                self.attacking = False
+            if self.right:
+                self.image = self.image_attacking_right[self.index]
+            else:
+                self.image = self.image_attacking_left[self.index]
+            self.anim_delay += 1
+            if self.anim_delay >= ENEMY_ATTACKING_DELAY:
+                self.index += 1
+                self.anim_delay = 0
+
+    def update(self):
+        if self.hp <= 0:
+            self.alive = False
+            self.kill()
+        if self.alive:
+            self.hp_bar()
+            self.animation()
+            self.move()
+            # pygame.draw.rect(self.display, 'white', self.rect, 2)
