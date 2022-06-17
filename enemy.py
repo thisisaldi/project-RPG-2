@@ -118,7 +118,6 @@ class Goblin(Enemy):
             self.image = pygame.transform.flip(self.image, True, False)
             self.image_run_left.append(self.image)
         
-
         for i in range(1, 9):
             self.image = pygame.image.load(f'assets/enemies/goblin_attack_anim_f{i}.png').convert_alpha()
             self.image = pygame.transform.scale(self.image, ENEMY_SIZE)
@@ -172,6 +171,8 @@ class Goblin(Enemy):
                     self.player.hurt = True
                     self.player.index = 0
                     self.damaged = True
+                    self.player.knockback = True
+                    self.player.enemy_hitbox = self.rect
             if self.index >= len(self.image_attacking_right):
                 self.index = 0
                 self.attacking = False
@@ -276,6 +277,8 @@ class MaskedOrc(Enemy):
                 if self.rect.colliderect(self.player.rect) and not self.damaged:
                     self.player.hp -= self.damage
                     self.player.hurt = True
+                    self.player.knockback = True
+                    self.player.enemy_hitbox = self.rect
                     self.damaged = True
                     sfx.masked_orc_attack_sound()
             if self.index >= len(self.image_attacking_right):
@@ -382,6 +385,8 @@ class Boss(Enemy):
                     self.player.hp -= self.damage
                     self.player.hurt = True
                     self.damaged = True
+                    self.player.knockback = True
+                    self.player.enemy_hitbox = self.rect
             if self.index >= len(self.image_attacking_right):
                 self.index = 0
                 self.attacking = False

@@ -71,6 +71,8 @@ class Player(Creature):
         self.dashing = False
         self.damaged = False
         self.hurt = False
+        self.knockback = False
+        self.enemy_hitbox = None
         self.attack_speed = 3
         
         self.dash_cooldown = 0
@@ -139,7 +141,7 @@ class Player(Creature):
         elif self.direction.x == -1:
             self.right = False
 
-    
+
     def attack(self):
         if self.attacking and self.index >= 4:
             if self.right:
@@ -219,18 +221,23 @@ class Player(Creature):
                 self.index += 1
                 self.anim_delay = 0
                 
-    def dash(self):
-        if self.direction.magnitude() != 0:
-            self.direction = self.direction.normalize()
-        
-        self.rect.x += self.direction.x * PLAYER_DASH
-        self.rect.y += self.direction.y * PLAYER_DASH
+    def knockedback(self):
+        if self.knockback:
+            difference = pygame.math.Vector2((self.rect.centerx - self.enemy_hitbox.centerx, self.rect.centery - self.enemy_hitbox.centery))
+            if difference.magnitude() != 0:
+                difference = difference.normalize()
+                self.direction = difference
             
+            self.knockback = False
+                
     def update(self):
         # print(self.dashing)
         self.attack()
         self.input()
         self.animation()
+        self.knockedback()
+        # print(self.rect)
+    
         if self.dashing:
             self.move(PLAYER_DASH)
         else:
