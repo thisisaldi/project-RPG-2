@@ -17,8 +17,21 @@ class Enemy(Creature):
             
         self.attacking = False
         self.attacked = False
+        self.knockback = False
+        self.knockbackdelay = 3
+        self.knockbackid = 0
         
-
+        
+    def knockedback(self):
+        # print(self.knockback)
+        if self.knockback:
+            print(self.knockback)
+            difference = pygame.math.Vector2((self.rect.centerx - self.player.rect.centerx, self.rect.centery - self.player.rect.centery))
+            difference.x *= 2
+            difference.y *= 2
+            if difference.magnitude() != 0:
+                difference = difference.normalize()
+                self.direction = difference
 
     def config_stats(self, name):
         self.name = name
@@ -48,7 +61,7 @@ class Enemy(Creature):
         self.distance = math.sqrt((self.direction.x)**2 + (self.direction.y)**2)
         return (self.distance < range * SCALE * ZOOM and self.distance >= 60 * SCALE * ZOOM)
                         
-    def move(self):
+    def move(self, speed=1):
 
         self.direction.x = self.player.rect.x - self.rect.x
         self.direction.y = self.player.rect.y - self.rect.y
@@ -57,11 +70,14 @@ class Enemy(Creature):
             if self.direction.magnitude() != 0:
                 self.direction.normalize()
                 self.direction.scale_to_length(self.speed)
+            self.knockedback()
+            if self.knockback:
+                speed = 20
             self.attacking = False
             self.idle = False
-            self.rect.x += self.direction.x
+            self.rect.x += self.direction.x * speed
             self.collision('x')
-            self.rect.y += self.direction.y
+            self.rect.y += self.direction.y * speed
             self.collision('y')
 
         elif self.distance < 75 and not self.attacking:
@@ -77,10 +93,16 @@ class Enemy(Creature):
             self.direction.x = 0
             self.direction.y = 0
         
-        if self.direction.x > 0:
+        if self.direction.x > 0 and not self.knockback:
             self.right = True
-        elif self.direction.x < 0:
+        elif self.direction.x < 0 and not self.knockback:
             self.right = False
+        
+        if self.knockbackid >= self.knockbackdelay:
+            self.knockback = False
+            self.knockbackid = 0
+        else:
+            self.knockbackid += 1
             
     def hp_bar(self):
         red = (self.rect.width * self.hp) // self.max_hp
@@ -193,8 +215,8 @@ class Goblin(Enemy):
             self.kill()
         if self.alive:
             self.hp_bar()
-            self.animation()
             self.move()
+            self.animation()
             # pygame.draw.rect(self.display, 'white', self.rect, 2)
 
 class MaskedOrc(Enemy):
@@ -292,16 +314,17 @@ class MaskedOrc(Enemy):
             if self.anim_delay >= ENEMY_ATTACKING_DELAY:
                 self.index += 1
                 self.anim_delay = 0
+            
 
-    def update(self):
+    def update(self): 
         if self.hp <= 0:
             self.alive = False
             sfx.masked_orc_death_sound()
             self.kill()
         if self.alive:
             self.hp_bar()
-            self.animation()
             self.move()
+            self.animation()
             # pygame.draw.rect(self.display, 'white', self.rect, 2)
 
 class Boss(Enemy):
@@ -405,6 +428,6 @@ class Boss(Enemy):
             self.kill()
         if self.alive:
             self.hp_bar()
-            self.animation()
             self.move()
+            self.animation()
             # pygame.draw.rect(self.display, 'white', self.rect, 2)

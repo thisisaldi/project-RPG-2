@@ -153,6 +153,10 @@ class Player(Creature):
                 if self.hitbox.colliderect(enemy.rect) and enemy.attacked == False:
                     enemy.hp -= self.base_damage
                     enemy.attacked = True
+                    # print(enemy.knockback)
+                    enemy.knockback = True
+                    # print(enemy.knockback)
+                    
                     sfx.enemy_hit_sound()
                     
     def animation(self):
@@ -228,7 +232,6 @@ class Player(Creature):
                 difference = difference.normalize()
                 self.direction = difference
             
-            self.knockback = False
                 
     def update(self):
         # print(self.dashing)
@@ -237,7 +240,9 @@ class Player(Creature):
         self.animation()
         self.knockedback()
         # print(self.rect)
-    
+        if self.knockback:
+            self.move(PLAYER_SPEED * 2)
+            self.knockback = False
         if self.dashing:
             self.move(PLAYER_DASH)
         else:
