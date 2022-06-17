@@ -6,6 +6,9 @@ from config import *
 from creature import Creature
 
 class Enemy(Creature):
+
+    enemies_count = 0
+
     def __init__(self, group, player, enemies):
         super().__init__(group)
         self.display = pygame.display.get_surface()
@@ -20,8 +23,17 @@ class Enemy(Creature):
         self.knockback = False
         self.knockbackdelay = 3
         self.knockbackid = 0
+
         
-        
+    @classmethod
+    def increment_enemy(cls):
+        cls.enemies_count += 1
+
+    @classmethod
+    def decrement_enemy(cls):
+        cls.enemies_count -= 1
+
+
     def knockedback(self):
         # print(self.knockback)
         if self.knockback:
@@ -59,7 +71,7 @@ class Enemy(Creature):
 
     def check_distance(self, range):
         self.distance = math.sqrt((self.direction.x)**2 + (self.direction.y)**2)
-        return (self.distance < range * SCALE * ZOOM and self.distance >= 60 * SCALE * ZOOM)
+        return (self.distance < 5000 * SCALE * ZOOM and self.distance >= 60 * SCALE * ZOOM)
                     
     def move(self, speed = 1):
         self.direction.x = self.player.rect.x - self.rect.x
@@ -112,6 +124,8 @@ class Enemy(Creature):
         # pygame.draw.rect(self.display, 'white', hp2, 6)
 
 class Goblin(Enemy):
+
+
     def __init__(self, group, player, enemies, pos):
         super().__init__(group, player, enemies)
         self.config_stats('Goblin')
@@ -122,6 +136,8 @@ class Goblin(Enemy):
         self.image_attacking_right = []
         self.image_attacking_left = []
         
+        self.increment_enemy()
+
         for i in range(0, 4):
             self.image = pygame.image.load(f'assets/enemies/goblin_idle_anim_f{i}.png').convert_alpha() # png belom diganti
             self.image = pygame.transform.scale(self.image, ENEMY_SIZE)
@@ -212,9 +228,10 @@ class Goblin(Enemy):
             self.alive = False
             sfx.enemy_death_sound()
             self.kill()
+            self.decrement_enemy()
         if self.alive:
             self.hp_bar()
-            self.move()
+            self.move(speed = 1.15)
             self.animation()
             # pygame.draw.rect(self.display, 'white', self.rect, 2)
 
@@ -228,6 +245,8 @@ class MaskedOrc(Enemy):
         self.image_run_left = []
         self.image_attacking_right = []
         self.image_attacking_left = []
+
+        self.increment_enemy()
 
         for i in range(1, 5):
             self.image = pygame.image.load(f'assets/enemies/masked_orc_idle_anim_f{i}.png').convert_alpha() # png belom diganti
@@ -319,6 +338,7 @@ class MaskedOrc(Enemy):
         if self.hp <= 0:
             self.alive = False
             sfx.enemy_death_sound()
+            self.decrement_enemy()
             self.kill()
         if self.alive:
             self.hp_bar()
@@ -336,6 +356,8 @@ class Boss(Enemy):
         self.image_run_left = []
         self.image_attacking_right = []
         self.image_attacking_left = []
+
+        self.increment_enemy()
 
         for i in range(1, 5):
             self.image = pygame.image.load(f'assets/enemies/ogre_idle_anim_f{i}.png').convert_alpha() # png belom diganti
@@ -424,6 +446,7 @@ class Boss(Enemy):
     def update(self):
         if self.hp <= 0:
             self.alive = False
+            self.decrement_enemy()
             self.kill()
         if self.alive:
             self.hp_bar()
