@@ -60,9 +60,8 @@ class Enemy(Creature):
     def check_distance(self, range):
         self.distance = math.sqrt((self.direction.x)**2 + (self.direction.y)**2)
         return (self.distance < range * SCALE * ZOOM and self.distance >= 60 * SCALE * ZOOM)
-                        
-    def move(self, speed=1):
-
+                    
+    def move(self, speed = 1):
         self.direction.x = self.player.rect.x - self.rect.x
         self.direction.y = self.player.rect.y - self.rect.y
         
@@ -150,7 +149,6 @@ class Goblin(Enemy):
         
         self.rect = pygame.rect.Rect(0, 0, ENEMY_WIDTH, ENEMY_HEIGHT)
         self.rect = self.rect.inflate(-ENEMY_WIDTH / 3, -ENEMY_HEIGHT / 3)
-
         self.rect.centerx = pos[0]
         self.rect.centery = pos[1]
         self.index = 0
@@ -212,6 +210,7 @@ class Goblin(Enemy):
     def update(self):
         if self.hp <= 0:
             self.alive = False
+            sfx.enemy_death_sound()
             self.kill()
         if self.alive:
             self.hp_bar()
@@ -319,7 +318,7 @@ class MaskedOrc(Enemy):
     def update(self): 
         if self.hp <= 0:
             self.alive = False
-            sfx.masked_orc_death_sound()
+            sfx.enemy_death_sound()
             self.kill()
         if self.alive:
             self.hp_bar()

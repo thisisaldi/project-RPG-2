@@ -11,6 +11,7 @@ class Game:
         self.stages = Stage()
         self.font = pygame.font.SysFont('consolas', 30)
         self.time = pygame.time.get_ticks()
+        self.wave = self.stages.wave
         
     def run(self):
         while True:
@@ -24,6 +25,9 @@ class Game:
             self.fps = self.font.render('{:.2f}'.format(self.clock.get_fps()), True, 'white')
             self.display.blit(self.fps, (50, 50))
             
+            self.wave_text = self.font.render(f'WAVE : {self.wave}/3', True, 'white')
+            self.display.blit(self.wave_text, (500, 100))
+
             self.player_hp = self.font.render(f'HP : {self.stages.player.hp}', True, 'white')
             self.display.blit(self.player_hp, (50, 100))
         

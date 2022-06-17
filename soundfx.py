@@ -23,13 +23,18 @@ def player_dash_sound():
     sound.set_volume(1 * VOLUME_LEVEL)
     sound.play()
 
+def goblin_attack_sound():
+    sound = pygame.mixer.Sound(f"soundfx/enemy/goblin/goblin_attack{random.randint(1, 3)}.ogg")
+    sound.set_volume(0.6 * VOLUME_LEVEL)
+    sound.play()
+
 def masked_orc_attack_sound():
     sound = pygame.mixer.Sound(f"soundfx/enemy/masked_orc/masked_orc_attack{random.randint(1, 4)}.wav")
     sound.set_volume(0.8 * VOLUME_LEVEL)
     sound.play()
 
-def masked_orc_death_sound():
-    sound = pygame.mixer.Sound(f"soundfx/enemy/masked_orc/masked_orc_death.wav")
+def enemy_death_sound():
+    sound = pygame.mixer.Sound(f"soundfx/enemy/enemy_death.wav")
     sound.set_volume(0.8 * VOLUME_LEVEL)
     sound.play()
 

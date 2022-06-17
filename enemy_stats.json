@@ -11,7 +11,7 @@
         "HP" : 75,
         "Damage" : 6,
         "Level" : 5,
-        "Range" : 200,
+        "Range" : 500,
         "Type" : "Common"
     },
 
@@ -19,7 +19,7 @@
         "HP" : 2,
         "Damage" : 2,
         "Level" : 2,
-        "Range" : 400,
+        "Range" : 500,
         "Type" : "Common"
     },
     
@@ -35,7 +35,7 @@
         "HP" : 150,
         "Damage" : 10,
         "Level" : 20,
-        "Range" : 200,
+        "Range" : 500,
         "Type" : "Boss"
     }
 }
