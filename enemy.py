@@ -338,7 +338,7 @@ class Boss(Enemy):
         self.image_attacking_right = []
         self.image_attacking_left = []
 
-        for i in range(0, 4):
+        for i in range(1, 5):
             self.image = pygame.image.load(f'assets/enemies/ogre_idle_anim_f{i}.png').convert_alpha() # png belom diganti
             self.image = pygame.transform.scale(self.image, ENEMY_SIZE)
 
@@ -347,7 +347,7 @@ class Boss(Enemy):
             self.image_idle_left.append(self.image)
         
 
-        for i in range(0, 4):
+        for i in range(1, 5):
             self.image = pygame.image.load(f'assets/enemies/ogre_run_anim_f{i}.png').convert_alpha() # png belom diganti
             self.image = pygame.transform.scale(self.image, ENEMY_SIZE)
 
@@ -356,7 +356,7 @@ class Boss(Enemy):
             self.image_run_left.append(self.image)
         
 
-        for i in range(0, 4):
+        for i in range(1, 5):
             self.image = pygame.image.load(f'assets/enemies/ogre_idle_anim_f{i}.png').convert_alpha()
             self.image = pygame.transform.scale(self.image, ENEMY_SIZE)
 
