@@ -32,6 +32,8 @@ class Enemy(Creature):
     @classmethod
     def decrement_enemy(cls):
         cls.enemies_count -= 1
+        if cls.enemies_count <= 0:
+            cls.enemies_count = 0
 
 
     def knockedback(self):
@@ -176,8 +178,9 @@ class Goblin(Enemy):
         self.hp_bar()
 
     def __del__(self):
-        self.decrement_enemy()
-    
+        # print("Killed")
+        self.kill()
+
     def animation(self):
         if not self.idle and not self.attacking:
             if self.index >= len(self.image_run_right):
@@ -234,9 +237,10 @@ class Goblin(Enemy):
             self.animation()
             # pygame.draw.rect(self.display, 'white', self.rect, 2)
         if self.hp <= 0:
+            self.decrement_enemy()
             self.alive = False
             sfx.enemy_death_sound()
-            del self
+            self.__del__()
 
 class MaskedOrc(Enemy):
     def __init__(self, group, player, enemies, pos):
@@ -292,6 +296,7 @@ class MaskedOrc(Enemy):
 
     def __del__(self):
         self.decrement_enemy()
+        self.kill()
     
     def animation(self):
         if not self.idle and not self.attacking:
@@ -348,7 +353,7 @@ class MaskedOrc(Enemy):
         if self.hp <= 0:
             self.alive = False
             sfx.enemy_death_sound()
-            del self
+            self.__del__()
             # pygame.draw.rect(self.display, 'white', self.rect, 2)
 
 class Boss(Enemy):
@@ -405,6 +410,7 @@ class Boss(Enemy):
 
     def __del__(self):
         self.decrement_enemy()
+        self.kill()
     
     def animation(self):
         if not self.idle and not self.attacking:
@@ -458,5 +464,5 @@ class Boss(Enemy):
             self.animation()
         if self.hp <= 0:
             self.alive = False
-            del self
+            self.__del__()
             # pygame.draw.rect(self.display, 'white', self.rect, 2)

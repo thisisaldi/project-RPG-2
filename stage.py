@@ -16,10 +16,13 @@ class Stage:
         self.started = True
         self.game_over = False
         self.reset = False
+        Goblin.enemies_count = 0
+        MaskedOrc.enemies_count = 0
+        Boss.enemies_count = 0
 
     def __del__(self):
-        for enemy in self.enemies:
-            enemy.kill()
+        self.visible.empty()
+        self.enemies.empty()
 
     def create_stage(self):
         # self.visible = pygame.sprite.Group()
