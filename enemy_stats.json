@@ -1,7 +1,7 @@
 {
     "Goblin": {
         "HP" : 50,
-        "Damage" : 2,
+        "Damage" : 5,
         "Level" : 2,
         "Range" : 600,
         "Type" : "Common"
@@ -9,7 +9,7 @@
 
     "Masked Orc" : {
         "HP" : 75,
-        "Damage" : 6,
+        "Damage" : 10,
         "Level" : 5,
         "Range" : 500,
         "Type" : "Common"
@@ -33,7 +33,7 @@
 
     "Ogre" : {
         "HP" : 150,
-        "Damage" : 10,
+        "Damage" : 20,
         "Level" : 20,
         "Range" : 500,
         "Type" : "Boss"

@@ -19,6 +19,11 @@ class Game:
                     pygame.quit()
                     sys.exit()
             self.display.fill('black')
+
+            if self.stages.reset:
+                del self.stages
+                self.stages = Stage()
+
             if not self.stages.game_over:
                 self.time = self.stages.run(pygame.time.get_ticks(), self.time)
             

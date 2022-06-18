@@ -2,10 +2,10 @@ from game import Game
 
 """
     TO-DO (MAIN):
-    - Survival/Wave (3 Waves)
-    - Enemy Spawn (Wave 1 : 5 Goblin, Wave 2 : 5 Masked Orc, Wave 3 : Boss)
-    - 1 Stage Kotak
-    - Pake pedang doang
+    - Survival/Wave (3 Waves) (Done)
+    - Enemy Spawn (Wave 1 : 5 Goblin, Wave 2 : 5 Masked Orc, Wave 3 : Boss) (Done)
+    - 1 Stage Kotak (Done)
+    - Pake pedang doang (Done)
     - Health Drop
     - Level Up
     - Game Over

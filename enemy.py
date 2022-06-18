@@ -174,6 +174,9 @@ class Goblin(Enemy):
         self.right = True
     
         self.hp_bar()
+
+    def __del__(self):
+        self.decrement_enemy()
     
     def animation(self):
         if not self.idle and not self.attacking:
@@ -209,6 +212,7 @@ class Goblin(Enemy):
                     self.damaged = True
                     self.player.knockback = True
                     self.player.enemy_hitbox = self.rect
+                    sfx.goblin_attack_sound()
             if self.index >= len(self.image_attacking_right):
                 self.index = 0
                 self.attacking = False
@@ -224,16 +228,15 @@ class Goblin(Enemy):
 
 
     def update(self):
-        if self.hp <= 0:
-            self.alive = False
-            sfx.enemy_death_sound()
-            self.kill()
-            self.decrement_enemy()
         if self.alive:
             self.hp_bar()
             self.move(speed = 1.15)
             self.animation()
             # pygame.draw.rect(self.display, 'white', self.rect, 2)
+        if self.hp <= 0:
+            self.alive = False
+            sfx.enemy_death_sound()
+            del self
 
 class MaskedOrc(Enemy):
     def __init__(self, group, player, enemies, pos):
@@ -286,6 +289,9 @@ class MaskedOrc(Enemy):
         self.right = True
         
         self.hp_bar()
+
+    def __del__(self):
+        self.decrement_enemy()
     
     def animation(self):
         if not self.idle and not self.attacking:
@@ -335,15 +341,14 @@ class MaskedOrc(Enemy):
             
 
     def update(self): 
-        if self.hp <= 0:
-            self.alive = False
-            sfx.enemy_death_sound()
-            self.decrement_enemy()
-            self.kill()
         if self.alive:
             self.hp_bar()
             self.move()
             self.animation()
+        if self.hp <= 0:
+            self.alive = False
+            sfx.enemy_death_sound()
+            del self
             # pygame.draw.rect(self.display, 'white', self.rect, 2)
 
 class Boss(Enemy):
@@ -397,6 +402,9 @@ class Boss(Enemy):
         self.right = True
         
         self.hp_bar()
+
+    def __del__(self):
+        self.decrement_enemy()
     
     def animation(self):
         if not self.idle and not self.attacking:
@@ -444,12 +452,11 @@ class Boss(Enemy):
                 self.anim_delay = 0
 
     def update(self):
-        if self.hp <= 0:
-            self.alive = False
-            self.decrement_enemy()
-            self.kill()
         if self.alive:
             self.hp_bar()
             self.move()
             self.animation()
+        if self.hp <= 0:
+            self.alive = False
+            del self
             # pygame.draw.rect(self.display, 'white', self.rect, 2)
