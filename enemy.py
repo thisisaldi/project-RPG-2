@@ -37,7 +37,7 @@ class Enemy(Creature):
     def knockedback(self):
         # print(self.knockback)
         if self.knockback:
-            print(self.knockback)
+            # print(self.knockback)
             difference = pygame.math.Vector2((self.rect.centerx - self.player.rect.centerx, self.rect.centery - self.player.rect.centery))
             difference.x *= 2
             difference.y *= 2
@@ -377,8 +377,8 @@ class Boss(Enemy):
             self.image_run_left.append(self.image)
         
 
-        for i in range(1, 5):
-            self.image = pygame.image.load(f'assets/enemies/ogre_idle_anim_f{i}.png').convert_alpha()
+        for i in range(1, 17):
+            self.image = pygame.image.load(f'assets/enemies/ogre_attack_anim_f{i}.png').convert_alpha()
             self.image = pygame.transform.scale(self.image, ENEMY_SIZE)
 
             self.image_attacking_right.append(self.image)
