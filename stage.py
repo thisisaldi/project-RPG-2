@@ -52,7 +52,7 @@ class Stage:
         
 
 
-        print(Goblin.enemies_count)
+        # print(Goblin.enemies_count)
         if self.wave == 3 and Goblin.enemies_count == 0 and MaskedOrc.enemies_count == 0 and Boss.enemies_count == 0:
             self.game_over = True
         elif Goblin.enemies_count == 0 and MaskedOrc.enemies_count == 0 and Boss.enemies_count == 0:

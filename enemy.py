@@ -138,7 +138,7 @@ class Goblin(Enemy):
         
         self.increment_enemy()
 
-        for i in range(0, 4):
+        for i in range(1, 5):
             self.image = pygame.image.load(f'assets/enemies/goblin_idle_anim_f{i}.png').convert_alpha() # png belom diganti
             self.image = pygame.transform.scale(self.image, ENEMY_SIZE)
 
@@ -147,7 +147,7 @@ class Goblin(Enemy):
             self.image_idle_left.append(self.image)
         
 
-        for i in range(0, 4):
+        for i in range(1, 5):
             self.image = pygame.image.load(f'assets/enemies/goblin_run_anim_f{i}.png').convert_alpha() # png belom diganti
             self.image = pygame.transform.scale(self.image, ENEMY_SIZE)
 
@@ -155,7 +155,7 @@ class Goblin(Enemy):
             self.image = pygame.transform.flip(self.image, True, False)
             self.image_run_left.append(self.image)
         
-        for i in range(1, 9):
+        for i in range(1, 17):
             self.image = pygame.image.load(f'assets/enemies/goblin_attack_anim_f{i}.png').convert_alpha()
             self.image = pygame.transform.scale(self.image, ENEMY_SIZE)
 
@@ -266,7 +266,7 @@ class MaskedOrc(Enemy):
             self.image_run_left.append(self.image)
         
 
-        for i in range(1, 9):
+        for i in range(1, 17):
             self.image = pygame.image.load(f'assets/enemies/masked_orc_attack_anim_f{i}.png').convert_alpha()
             self.image = pygame.transform.scale(self.image, ENEMY_SIZE)
 

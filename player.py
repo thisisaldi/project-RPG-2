@@ -225,12 +225,12 @@ class Player(Creature):
                 self.index += 1
                 self.anim_delay = 0
                 
-    def knockedback(self):
-        if self.knockback:
-            difference = pygame.math.Vector2((self.rect.centerx - self.enemy_hitbox.centerx, self.rect.centery - self.enemy_hitbox.centery))
-            if difference.magnitude() != 0:
-                difference = difference.normalize()
-                self.direction = difference
+    # def knockedback(self):
+    #     if self.knockback:
+    #         difference = pygame.math.Vector2((self.rect.centerx - self.enemy_hitbox.centerx, self.rect.centery - self.enemy_hitbox.centery))
+    #         if difference.magnitude() != 0:
+    #             difference = difference.normalize()
+    #             self.direction = difference
             
                 
     def update(self):
@@ -238,11 +238,11 @@ class Player(Creature):
         self.attack()
         self.input()
         self.animation()
-        self.knockedback()
+        # self.knockedback()
         # print(self.rect)
-        if self.knockback:
-            self.move(PLAYER_SPEED * 2)
-            self.knockback = False
+        # if self.knockback:
+        #     self.move(PLAYER_SPEED * 2)
+        #     self.knockback = False
         if self.dashing:
             self.move(PLAYER_DASH)
         else:
